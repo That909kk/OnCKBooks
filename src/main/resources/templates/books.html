@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Book</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet"
+          integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"
+            integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz"
+            crossorigin="anonymous"></script>
+</head>
+<body>
+<div class="container-fluid text-center">
+    <h3 class="text-center">Book Management</h3>
+    <a href="/logout" >Thoát</a>
+    <a href="/createbook">Tạo</a>
+    <form action="/books/search" method="get" class="mt-3">
+        <input type="text" name="query" placeholder="Search by title or authors" class="form-control" required>
+        <button type="submit" >Search</button>
+    </form>
+    <div class="container-fluid mt-3 text-center">
+        <table class="table table-hover text-center">
+            <thead>
+            <tr>
+                <td>ISBN</td>
+                <td>Title</td>
+                <td>Authors</td>
+                <td>Total Pages</td>
+                <td>Published Date</td>
+                <td>Function</td>
+            </tr>
+            </thead>
+            <tbody th:each="book : ${books}">
+            <tr>
+                <td th:text="${book.isbn}"></td>
+                <td th:text="${book.title}"></td>
+                <td th:text="${book.authors}"></td>
+                <td th:text="${book.totalPages}"></td>
+                <td th:text="${book.publishedDate}"></td>
+                <td>
+                    <form action="/books/delete" method="post">
+                        <input type="hidden" name="isbn" th:value="${book.isbn}">
+                        <button type="submit">Xóa</button>
+                    </form>
+                    <a th:href="@{/books/update/{isbn}(isbn=${book.isbn})}">Sửa</a>
+                </td>
+            </tr>
+            </tbody>
+        </table>
+    </div>
+</div>
+</body>
+</html>
